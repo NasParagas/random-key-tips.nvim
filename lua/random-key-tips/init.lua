@@ -18,9 +18,7 @@ local function get_random_keymap()
 	for _, map in ipairs(keymaps) do
 		if map.desc and map.desc ~= "" then
 			table.insert(candidates, {
-				-- キー(lhsって何...)
 				lhs = map.lhs,
-				-- 説明
 				desc = map.desc,
 			})
 		end
@@ -45,7 +43,7 @@ local function start_display_keymap_tips()
 				vim.notify(
 					string.format("💡 Tip: %s\nCmd: %s", keymap_tip.lhs, keymap_tip.desc),
 					vim.log.levels.INFO,
-					{ title = "Keymap Reminder" }
+					{ title = "Keymap tips" }
 				)
 			end
 		end)
