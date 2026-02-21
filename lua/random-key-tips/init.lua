@@ -2,7 +2,7 @@ local M = {}
 
 -- デフォルト設定
 local default_config = {
-	interval = 5000, -- ミリ秒
+	interval = 15000, -- ミリ秒
 }
 
 local timer = vim.uv.new_timer()
