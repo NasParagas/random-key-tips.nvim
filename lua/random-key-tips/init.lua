@@ -55,8 +55,8 @@ local function stop_tips()
 	timer:stop()
 end
 
--- vim.api.nvim_create_user_command("TipsStart", start_display_keymap_tips(), { desc = "start keymap tips" })
--- vim.api.nvim_create_user_command("TipsStop", stop_tips(), { desc = "stop keymap tips" })
+vim.api.nvim_create_user_command("TipsStart", start_display_keymap_tips(), { desc = "start keymap tips" })
+vim.api.nvim_create_user_command("TipsStop", stop_tips(), { desc = "stop keymap tips" })
 
 M.setup = function(opts)
 	opts = vim.tbl_deep_extend("force", default_config, opts or {})
