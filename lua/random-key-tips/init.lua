@@ -32,11 +32,11 @@ local function get_random_keymap()
 end
 
 -- tips表示開始
-local function start_display_keymap_tips()
+local function start_display_keymap_tips(interval)
 	timer:stop()
 	timer:start(
 		0,
-		INTERVAL,
+		interval,
 		vim.schedule_wrap(function()
 			local keymap_tip = get_random_keymap()
 			if keymap_tip then
@@ -63,7 +63,7 @@ M.setup = function(opts)
 	vim.api.nvim_create_user_command("TipsStart", function()
 		start_display_keymap_tips(opts.interval)
 	end, { desc = "Start keymap tips" })
-	vim.api.nvim_create_user_command("TipsStop", stop_tips(), { desc = "Stop keymap tips" })
+	vim.api.nvim_create_user_command("TipsStop", stop_tips, { desc = "Stop keymap tips" })
 	start_display_keymap_tips(opts.interval)
 end
 return M
