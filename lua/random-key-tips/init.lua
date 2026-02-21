@@ -45,7 +45,7 @@ local function start_display_keymap_tips(interval)
 			local keymap_tip = get_random_keymap()
 			if keymap_tip then
 				vim.notify(
-					string.format("💡 Tip: %s\nCmd: %s", keymap_tip.lhs, keymap_tip.desc),
+					string.format("💡 Tip: %s | Cmd: %s", keymap_tip.lhs, keymap_tip.desc),
 					vim.log.levels.INFO,
 					{ title = "Keymap tips" }
 				)
