@@ -1,6 +1,6 @@
 # random-key-tips.nvim
-NOTE: **Under construction**
-Notify random keys as tips.
+NOTE: This plugin is **Under construction**
+- Notify random keys as tips.
 
 ## Installation
 `lazy.nvim`
