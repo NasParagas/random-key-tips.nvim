@@ -1,24 +1,22 @@
 local M = {}
 
--- デフォルト設定
+-- default
 local default_config = {
-	interval = 15000, -- ミリ秒
+	interval = 15000, -- ms
 }
 
 local timer = vim.uv.new_timer()
 
--- ランダムにキーマップ取得する関数
+-- get keymap randomly
 local function get_random_keymap()
-	-- 乱数シードを初期化（毎回違う結果が出るようにする）
 	math.randomseed(os.time())
 
-	-- normalモードのkeymapを全て取得(配列)
+	-- only in normal mode
 	local keymaps = vim.api.nvim_get_keymap("n")
 
-	-- 最終的な取得keymap候補
 	local candidates = {}
 
-	-- descが記載されているものだけ受け取る
+	-- only have desc
 	for _, map in ipairs(keymaps) do
 		if map.desc and map.desc ~= "" then
 			table.insert(candidates, {
@@ -35,17 +33,17 @@ local function get_random_keymap()
 	return candidates[math.random(#candidates)]
 end
 
--- tips表示開始
+-- tips start
 local function start_display_keymap_tips(interval)
-	timer:stop() -- 既存のタイマーがあれば止める
+	timer:stop()
 	timer:start(
-		0, -- 開始までの待ち時間
-		interval, -- 繰り返す間隔
+		0, -- wait time to start
+		interval,
 		vim.schedule_wrap(function()
 			local keymap_tip = get_random_keymap()
 			if keymap_tip then
 				vim.notify(
-					string.format("💡 Tip: %s | Cmd: %s", keymap_tip.lhs, keymap_tip.desc),
+					string.format("💡 Key Tips: %s | %s", keymap_tip.lhs, keymap_tip.desc),
 					vim.log.levels.INFO,
 					{ title = "Keymap tips" }
 				)
