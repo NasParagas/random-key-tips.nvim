@@ -11,7 +11,8 @@ local timer = vim.uv.new_timer()
 local function get_random_keymap()
 	math.randomseed(os.time())
 
-	-- only in normal mode
+	-- Currentry, get keymaps in normal mode only
+	-- TODO: Other mode
 	local keymaps = vim.api.nvim_get_keymap("n")
 
 	local candidates = {}
@@ -52,23 +53,22 @@ local function start_display_keymap_tips(interval)
 	)
 end
 
--- tips表示停止
+-- tips stop
 local function stop_tips()
 	timer:stop()
 end
 
 M.setup = function(opts)
-	-- 設定のマージ
+	-- merge setting?
 	opts = vim.tbl_deep_extend("force", default_config, opts or {})
 
-	-- コマンド登録
+	-- create command
 	vim.api.nvim_create_user_command("TipsStart", function()
 		start_display_keymap_tips(opts.interval)
 	end, { desc = "Start keymap tips" })
-
 	vim.api.nvim_create_user_command("TipsStop", stop_tips, { desc = "Stop keymap tips" })
 
-	-- 初回起動
+	-- start
 	start_display_keymap_tips(opts.interval)
 end
 
