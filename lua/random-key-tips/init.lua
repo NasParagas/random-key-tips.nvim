@@ -69,7 +69,7 @@ M.setup = function(opts)
 	vim.api.nvim_create_user_command("TipsStop", stop_tips, { desc = "Stop keymap tips" })
 
 	-- start
-	start_display_keymap_tips(opts.interval)
+	-- start_display_keymap_tips(opts.interval)
 end
 
 return M
