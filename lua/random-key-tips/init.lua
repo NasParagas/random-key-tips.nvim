@@ -1,24 +1,25 @@
 local M = {}
 
--- default
+-- Default configuration
 local default_config = {
 	interval = 15000, -- ms
+	auto_start = false, -- Control auto-start behavior
 }
 
 local timer = vim.uv.new_timer()
 
--- get keymap randomly
+-- Get keymap randomly
 local function get_random_keymap()
 	math.randomseed(os.time())
 
-	-- Currentry, get keymaps in normal mode only
-	-- TODO: Other mode
-	local keymaps = vim.api.nvim_get_keymap("n")
+	-- Currently, get keymaps in normal mode only
+	-- TODO: Implement other modes (insert, visual, terminal)
+	local normal_keymaps = vim.api.nvim_get_keymap("n")
 
 	local candidates = {}
 
-	-- only have desc
-	for _, map in ipairs(keymaps) do
+	-- Only collect keymaps that have a description
+	for _, map in ipairs(normal_keymaps) do
 		if map.desc and map.desc ~= "" then
 			table.insert(candidates, {
 				lhs = map.lhs,
@@ -34,7 +35,7 @@ local function get_random_keymap()
 	return candidates[math.random(#candidates)]
 end
 
--- tips start
+-- Start displaying tips
 local function start_display_keymap_tips(interval)
 	timer:stop()
 	timer:start(
@@ -53,23 +54,26 @@ local function start_display_keymap_tips(interval)
 	)
 end
 
--- tips stop
+-- Stop displaying tips
 local function stop_tips()
 	timer:stop()
 end
 
 M.setup = function(opts)
-	-- merge setting?
+	-- Merge user options with default config
 	opts = vim.tbl_deep_extend("force", default_config, opts or {})
 
-	-- create command
+	-- Create commands for manual control
 	vim.api.nvim_create_user_command("TipsStart", function()
 		start_display_keymap_tips(opts.interval)
 	end, { desc = "Start keymap tips" })
+
 	vim.api.nvim_create_user_command("TipsStop", stop_tips, { desc = "Stop keymap tips" })
 
-	-- start
-	-- start_display_keymap_tips(opts.interval)
+	-- Start automatically only if auto_start is true
+	if opts.auto_start then
+		start_display_keymap_tips(opts.interval)
+	end
 end
 
 return M
